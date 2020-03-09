@@ -82,9 +82,13 @@ namespace MatrixM {
         matrixCnt--;
     }
 
+    /**
+     * @todo insert return statement here
+
+     * 
+     */
     //Matrix &Matrix::operator=(const Matrix &)
     //{
-    //    // TODO: insert return statement here
     //}
 
     int Matrix::GetRows() const
@@ -99,15 +103,18 @@ namespace MatrixM {
 
     void Matrix::SetElement(int, int, double)
     {
+    //TODO: add functionality
     }
 
     double Matrix::GetElement(int, int) const
     {
+        //TODO: add functionality
         return 0.0;
     }
 
     int Matrix::GetMatrixCnt()
     {
+        //TODO: add functionality
         return 0;
     }
 
@@ -118,7 +125,7 @@ namespace MatrixM {
         double pow = 0.0;
         for (auto& r : mat)
             for (auto& c : r)
-                pow += pow + c * C;
+                pow += pow + c * c;
 
         return false;
     }
