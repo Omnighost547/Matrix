@@ -34,14 +34,14 @@ int TestCopyCstr()
     Matrix m1(3, 3);
     m1.FillRand();
 
-    //std::cout << "Matrix 1:" << std::endl;
-    //std::cout << m1;
+    std::cout << "Matrix 1:" << std::endl;
+    std::cout << m1;
 
     // Create second matrix, as a copy
     Matrix m2(m1);
 
-    //std::cout << "Matrix 2 (copy):" << std::endl;
-    //std::cout << m2;
+    std::cout << "Matrix 2 (copy):" << std::endl;
+    std::cout << m2;
 
     return 0;
 }

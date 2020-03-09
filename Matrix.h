@@ -40,13 +40,15 @@ namespace MatrixM
         Matrix(int, int, const double&);        // Constructor with init value
         Matrix(const Matrix&);                  // Copy constructor
         ~Matrix();                              // Destructor
-        //Matrix& operator=(const Matrix&);       // Copy assignment operator
+        Matrix& operator=(const Matrix&);       // Copy assignment operator
 
         int GetRows() const;                    // Get number of rows
         int GetCols() const;                    // Get number of columns
         void SetElement(int, int, double);      // Set an element value
         double GetElement(int, int) const;      // Get an element value
         static int GetMatrixCnt();              // Static function to get Matric count
+
+
 
         //double &operator()(const int &, const int &);               // Overload parentheses
         //const double& operator() (const int&, const int&) const;    // Ditto
@@ -62,5 +64,7 @@ namespace MatrixM
 
 
     };
+
+    std::ostream& operator<<(std::ostream&, const Matrix&);
 }
 #endif // !MATRIX_H_INCLUDED

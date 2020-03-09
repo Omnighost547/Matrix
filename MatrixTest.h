@@ -24,4 +24,7 @@
 int DisplayTestString(std::string);
 int TestCopyCstr();
 
+//int TestMatrixSquare();
+//int TestOpScalar();
+
 #endif // !MATRIX_TEST_H

@@ -9,7 +9,7 @@
 ////////////////////////////////////////////////////////////
 // Tommy Kearns / g00320978
 // Created: 2020-01-31
-// Last Modified: 2020-02-10
+// Last Modified: 2020-03-09
 // Module / Lecturer: C++ / Michelle Lynch
 ////////////////////////////////////////////////////////////
 
@@ -34,7 +34,7 @@ namespace MatrixM {
         matrixCnt++;
     }
 
-    Matrix::Matrix(bool x) : rows{ 2 }, cols{ 2 }, mat{ {1,0}, {0,1} }
+    Matrix::Matrix(bool x) : rows{ 2 }, cols{ 2 }, mat{ {1, 0}, {0, 1} }
     {
 #if VERBOSE
         std::cout << "Executing Matrix 2x2 identity matrix constructor" << std::endl;
@@ -47,13 +47,18 @@ namespace MatrixM {
 #if VERBOSE
         std::cout << "Executing Matrix 2-arg constructor with rows & cols" << std::endl;
 #endif
+        mat.resize(r);
+        for (auto i = mat.begin(); i != mat.end(); i++)
+            i->resize(c);
+
         matrixCnt++;
     }
 
+    // Constructor with specified inital value for all elements
     Matrix::Matrix(int r, int c, const double &initVal) : rows{ r }, cols{ c }
     {
 #if VERBOSE
-        std::cout << "Executing Matrix 2-arg constructor with rows, cols, & initial value" << std::endl;
+        std::cout << "Executing Matrix 3-arg constructor with rows, cols, & initial value" << std::endl;
 #endif
         mat.resize(r);
         for (auto i = mat.begin(); i != mat.end(); i++)
@@ -71,25 +76,61 @@ namespace MatrixM {
         //rows = rhs.rows;
         //cols = rhs.cols;
         //mat  = rhs.mat;
+
+        //mat.resize(q.getColums());
+        //for (auto &r : mat) {
+        //    r.resize(q.getRows());//resizes vetor which is in the vector
+        //}
+
+        //for (int i = 0; i < mat.size(); i++) {
+        //    for (int j = 0; j < mat[i].size(); j++)
+        //        mat[i][j] = q.mat[i][j];
+        //}
+
         matrixCnt++;
     }
 
     Matrix::~Matrix()
     {
 #if VERBOSE
-        std::cout << "Executing Matrix destructor" << std::endl;
+        std::cout << "Executing Matrix Destructor" << std::endl;
 #endif
         matrixCnt--;
     }
 
-    /**
-     * @todo insert return statement here
+    // Copy assignment operator
+    Matrix &Matrix::operator=(const Matrix &rhs)
+    {
+    /*
+        if (this != &rhs) {
+            mat.resize(rhs.GetCols());
+            for (auto &r : mat) {
+                r.resize(rhs.GetRows());//resizes vetor which is in the vector
+            }
 
-     * 
-     */
-    //Matrix &Matrix::operator=(const Matrix &)
-    //{
-    //}
+            for (int i = 0; i < mat.size(); i++) {
+                for (int j = 0; j < mat[i].size(); j++)
+                    mat[i][j] = rhs.mat[i][j];
+            }
+            return *this;
+        }
+    */
+        if (this != &rhs) {
+            rows = rhs.GetRows();
+            cols = rhs.GetCols();
+            mat.resize(rows);
+            for (auto r : mat) {
+                r.resize(rhs.GetRows());//resizes vetor which is in the vector
+            }
+
+            for (int i = 0; i < mat.size(); i++) {
+                for (int j = 0; j < mat[i].size(); j++)
+                    mat[i][j] = rhs.mat[i][j];
+            }
+            return *this;
+        }
+
+    }
 
     int Matrix::GetRows() const
     {
@@ -101,33 +142,40 @@ namespace MatrixM {
         return cols;
     }
 
-    void Matrix::SetElement(int, int, double)
+    void Matrix::SetElement(int r, int c, double val)
     {
-    //TODO: add functionality
+        mat[r][c] = val;
     }
 
-    double Matrix::GetElement(int, int) const
+    double Matrix::GetElement(int r, int c) const
     {
-        //TODO: add functionality
-        return 0.0;
+        return this->mat[r][c];
     }
 
     int Matrix::GetMatrixCnt()
     {
-        //TODO: add functionality
-        return 0;
+        return matrixCnt;
     }
 
     // Operator overload to compare energy of this matrix with another
-    bool Matrix::operator<(const Matrix & rhs) const
+    bool Matrix::operator<(const Matrix &rhs) const
     {
-        //
         double pow = 0.0;
-        for (auto& r : mat)
-            for (auto& c : r)
+        for (auto &r : mat)
+            for (auto &c : r)
                 pow += pow + c * c;
+        pow = pow / (double(rows) * double(cols));
 
-        return false;
+        double pow_rhs = 0.0;
+        for (auto &r : rhs.mat)
+            for (auto &c : r)
+                pow_rhs += pow_rhs + c * c;
+        pow_rhs = pow_rhs / (double(rhs.rows) * double(rhs.cols));
+
+        if (pow <= pow_rhs)
+            return true;
+        else
+            return false;
     }
 
     // Fill with random numbers
@@ -149,6 +197,18 @@ namespace MatrixM {
         */
 
         return 0;
+    }
+
+    std::ostream &operator<<(std::ostream &output, const Matrix &rhs)
+    {
+        for (int i = 0; i < rhs.GetRows(); ++i) {
+            output << "| ";
+            for (int j = 0; j < rhs.GetCols(); ++j)
+                output << rhs.GetElement(i, j) << "  ";
+            output << "|" << std::endl;
+        }
+
+        return output;
     }
 
 }
